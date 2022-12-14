@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="PT-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="shortcut icon" href="favicon.png" type="image/x-icon">
+    <style>
+        h1{
+            margin: 10px;
+            text-align: center;
+            font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+        }
+        body{
+            background-image: linear-gradient(to right, rgb(3, 85, 3), rgb(160, 243, 112));
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+        }
+        img{
+            width: 40px;
+            margin-right: 4px;
+            margin-left: 4px;
+        }
+        #stage{
+            font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+        }
+        .placar{
+            color: white;
+            margin-top: 15px;
+            display: flex;
+            justify-content:center;
+            background-color: black;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+            padding-left: 20px;
+        }
+       #record{
+            width: 30px;
+            height: 10px;
+            margin: 8px;
+            font-size: 20px;
+            color: white;
+            padding: 5px;
+        }
+        #pontos{
+            width: 30px;
+            height: 10px;
+            margin: 8px;
+            font-size: 20px;
+            color: white;
+            padding: 5px;
+        }
+        footer{
+            text-align: center;
+            margin-top: 80px;
+            color: white;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="titulo">
+        <h1>SNAKE GAME</h1>
+        <div>
+            <div class="placar">
+            <p>PONTOS:</p>
+            <div id="pontos"></div>
+        </div>        
+    </div>
+    
+   
+    <canvas id="stage" width="450" height="450"></canvas>
+    <script type="text/javascript">
+        
+        window.onload = function(){
+ 
+            var stage = document.getElementById('stage');
+            var ctx = stage.getContext("2d");
+            document.addEventListener("keydown", keyPush);
+            setInterval(game, 95);
+ 
+            const vel = 1;
+ 
+            var vx = vy = 0;
+            var px =10;
+            var py = 15;
+            var tp = 25;
+            var qp = 18;
+            var ax=ay=15;
+            
+            var trail = [];
+            tail = 3;
+ 
+            function game(){
+                px += vx;
+                py += vy;   
+                if (px <0) {
+                    px = qp-1;
+                }
+                if (px > qp-1) {
+                    px = 0;
+                }
+                if (py < 0) {
+                    py = qp-1;
+                }
+                if (py > qp-1) {
+                    py = 0;
+                }
+ 
+                ctx.fillStyle = "black";
+                ctx.fillRect(0,0, stage.width, stage.height);
+ 
+                ctx.fillStyle = "red";
+                ctx.fillRect(ax*tp, ay*tp, tp,tp);
+ 
+                ctx.fillStyle = "yellow";
+                for (var i = 0; i < trail.length; i++) {
+                    ctx.fillRect(trail[i].x*tp, trail[i].y*tp, tp-1,tp-1);
+                    if (trail[i].x == px && trail[i].y == py)
+                    {
+                        vx = vy=0;
+                        tail =3;
+                    }
+                }
+
+                trail.push({x:px,y:py })
+                while (trail.length > tail) {
+                    trail.shift();
+                }
+ 
+                if (ax==px && ay==py){
+                    tail++;
+                    ax = Math.floor(Math.random()*qp);
+                    ay = Math.floor(Math.random()*qp);
+                }
+                if (tail>=2){
+                    ctx.fillStyle = "red";
+                    ctx.fillRect(trail[i].x*tp, trail[i].y*tp, tp-1,tp-1)
+                }
+
+                var pontos = document.getElementById('pontos').innerHTML = ( i - 2 );
+            }
+                         
+            function keyPush(event){
+ 
+                switch (event.keyCode) {
+                    case 37: // Left
+                        vx = -vel;
+                        vy = 0;
+                        break;
+                    case 38: // up
+                        vx = 0;
+                        vy = -vel;
+                        break;
+                    case 39: // right
+                        vx = vel;
+                        vy = 0;
+                        break;
+                    case 40: // down
+                        vx = 0;
+                        vy = vel;
+                        break;          
+                    default:
+                        
+                        break;
+                }
+ 
+ 
+            }
+        }
+ 
+    </script>
+
+    <footer>
+        <p>2022 - FABIO DIAS ARAGÃO</p>
+    </footer>
+
+</body>
+</html>
